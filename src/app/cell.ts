@@ -1,6 +1,8 @@
+import { direction } from "./directions";
+import { TileObj } from "./tile";
 
-
-class Cell{
+type Tile = TileObj;
+export class CellObj{
     private entropy: number;
     private tile: Tile;
     private collapsed: boolean;
@@ -10,7 +12,7 @@ class Cell{
         this.entropy =entropy;
         this.validTiles = validTiles;
         this.collapsed = false;
-        this.tile= new Tile("",[""],0);
+        this.tile= new TileObj("",[""],0);
     }
 
     

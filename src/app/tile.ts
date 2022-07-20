@@ -1,4 +1,9 @@
-class Tile{
+
+
+
+
+
+export class TileObj{
     private img:string;
     private sideKeys:string[];
 
@@ -20,8 +25,12 @@ class Tile{
         return this.sideKeys[direction];
     }
 
+    public getSideKeys():string[]{
+        return this.sideKeys;
+    }
+
     // returns rotation in degrees not radians
-    public get getRotation() : number {
+    public getRotation() : number {
         return this.rotation
     }
         
