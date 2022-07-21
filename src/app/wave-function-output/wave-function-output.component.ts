@@ -122,7 +122,6 @@ export class WaveFunctionOutputComponent implements OnInit {
 		this.generate(0,0)
 		while(this.failed){
 			this.reset();
-			console.log("Retrying!")
 			this.generate(0,0)
 		}
 	}
@@ -131,7 +130,6 @@ export class WaveFunctionOutputComponent implements OnInit {
 		var lowestEntropy = 5;
 		var lowestEntropyCoords = [0,0]
 		if(this.cells[i][j].getEntropy() == 0){
-			console.log("Invalid Tile");
 			this.failed = true;
 			return;
 		}
