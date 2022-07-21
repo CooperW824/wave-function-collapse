@@ -9,7 +9,7 @@
 <button type="button" (click)="run()">Generate!</button>
 <div id="output" *ngIf="cells">
     <div class="cellRow" *ngFor="let cellRow of cells; let i = index">
-        <img *ngFor="let cell of cellRow; let j = index" id="img{{i}}{{j}}" src="../../assets/tiles/basicTee/blank.png">   
+        <img *ngFor="let cell of cellRow; let j = index" id="img{{i}} {{j}}" src="../../assets/tiles/basicTee/blank.png">   
     </div>
 
 </div>
