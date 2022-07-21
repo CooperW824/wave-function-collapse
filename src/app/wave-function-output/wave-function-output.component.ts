@@ -12,7 +12,7 @@ type Tile = TileObj;
 })
 
 export class WaveFunctionOutputComponent implements OnInit {
-	dim = 25;
+	dim = 10;
 	cells: Cell[][] = Array.from(Array(this.dim), () => new Array(this.dim))
 	tiles: Tile[] = [];
 	failed:boolean = false;
@@ -23,9 +23,9 @@ export class WaveFunctionOutputComponent implements OnInit {
 		this.tiles.push(new TileObj("/assets/tiles/basicTee/tile1.png", ["ABA", "ABA",'AAA','ABA'], 0));
 		this.tiles.push(new TileObj("/assets/tiles/basicTee/tile0.png", ["AAA", "AAA",'AAA','AAA'], 0));
 		this.rotateTile(this.tiles[0]);
-		for(var i= 0; i < this.cells.length; i++){
-			for(var j=0; j<this.cells[i].length; j++){
-				this.cells[i][j]=new CellObj(this.tiles.length,this.tiles);
+		for(var r= 0; r < this.cells.length; r++){
+			for(var c=0; c<this.cells[r].length; c++){
+				this.cells[r][c]=new CellObj(this.tiles.length,this.tiles);
 			}
 		}
 	}
@@ -42,9 +42,9 @@ export class WaveFunctionOutputComponent implements OnInit {
 	rotateTile(tile: Tile): void{
 		var sides:string[] = tile.getSideKeys();
 		var img = tile.image;
-		for(var i = 1; i < 4; i++){
+		for(var r = 1; r < 4; r++){
 			sides = this.rotateArray(sides);
-			this.tiles.push(new TileObj(img,sides, i*90));
+			this.tiles.push(new TileObj(img,sides, r*90));
 		}
 	}
 	
@@ -61,57 +61,57 @@ export class WaveFunctionOutputComponent implements OnInit {
 		return output;
 	}
 
-	collapse(i: number, j: number): void{
-		var cell = this.cells[i][j];
+	collapse(r: number, c: number): void{
+		var cell = this.cells[r][c];
 		cell.setCollapsed(true);
 		var tiles = cell.getValidTiles();
 		var tile = tiles[Math.floor(Math.random()*tiles.length)];
 		cell.setTile(tile);
-		this.cells[i][j] = cell;
-		this.render(i,j,tile.image,tile.getRotation());
+		this.cells[r][c] = cell;
+		this.render(r,c,tile.image,tile.getRotation());
 	}
 
-	updateCell(x: number, y:number): void{
-		var currentCell = this.cells[y][x];
+	updateCell(r:number, c: number): void{
+		var currentCell = this.cells[r][c];
 		var otherCell; 
-		if(y-1 >= 0){
-			otherCell = this.cells[y-1][x];
+		if(r-1 >= 0){
+			otherCell = this.cells[r-1][c];
 			if(otherCell.isCollapsed()){
 				var valid = this.checkValid(currentCell.getValidTiles(), otherCell.getTile(), direction.NORTH);
 				currentCell.setValidTiles(valid);
 			}
 		}
-		if(x+1 < this.cells[y].length){
-			otherCell = this.cells[y][x+1];
+		if(c+1 < this.cells[r].length){
+			otherCell = this.cells[r][c+1];
 			if(otherCell.isCollapsed()){
 				var valid = this.checkValid(currentCell.getValidTiles(), otherCell.getTile(), direction.EAST);
 				currentCell.setValidTiles(valid);
 			}
 		}
-		if(y+1 < this.cells.length){
-			otherCell = this.cells[y+1][x];
+		if(r+1 < this.cells.length){
+			otherCell = this.cells[r+1][c];
 			if(otherCell.isCollapsed()){
 				var valid = this.checkValid(currentCell.getValidTiles(), otherCell.getTile(), direction.SOUTH);
 				currentCell.setValidTiles(valid);
 			}
 		}	
-		if(x-1 >= 0){
-			otherCell = this.cells[y][x-1];
+		if(c-1 >= 0){
+			otherCell = this.cells[r][c-1];
 			if(otherCell.isCollapsed()){
 				var valid = this.checkValid(currentCell.getValidTiles(), otherCell.getTile(), direction.WEST);
 				currentCell.setValidTiles(valid);
 			}
 		}
 		currentCell.setEntropy(currentCell.getValidTiles().length);
-		this.cells[y][x] = currentCell;
+		this.cells[r][c] = currentCell;
 	}
 
 	reset():void{
-		for(var i= 0; i < this.cells.length; i++){
-			for(var j=0; j<this.cells[i].length; j++){
-				this.cells[i][j].setCollapsed(false);
-				this.cells[i][j].setValidTiles(this.tiles);
-				this.render(i,j,"../../assets/tiles/basicTee/blank.png",0);
+		for(var r= 0; r < this.cells.length; r++){
+			for(var c=0; c<this.cells[r].length; c++){
+				this.cells[r][c].setCollapsed(false);
+				this.cells[r][c].setValidTiles(this.tiles);
+				this.render(r,c,"../../assets/tiles/basicTee/blank.png",0);
 			}
 		}
 	}
@@ -125,49 +125,49 @@ export class WaveFunctionOutputComponent implements OnInit {
 		}
 	}
 
-	generate(i:number, j:number): void{
+	generate(r:number, c:number): void{
 		var lowestEntropy = 5;
 		var lowestEntropyCoords = [0,0]
-		if(this.cells[i][j].getEntropy() == 0){
+		if(this.cells[r][c].getEntropy() == 0){
 			this.failed = true;
 			return;
 		}
-		this.collapse(i,j);
+		this.collapse(r,c);
 		var availableCells: boolean[] = [true, true, true, true]
-		if(i==0 || this.cells[i-1][j].isCollapsed()){
+		if(r==0 || this.cells[r-1][c].isCollapsed()){
 			availableCells[direction.NORTH] = false;
 		}else{
-			this.updateCell(j, i-1);
-            if(this.cells[i-1][j].getEntropy() <= lowestEntropy){
-                lowestEntropy = this.cells[i-1][j].getEntropy();
-                lowestEntropyCoords = [i-1, j] 
+			this.updateCell(r-1, c);
+            if(this.cells[r-1][c].getEntropy() <= lowestEntropy){
+                lowestEntropy = this.cells[r-1][c].getEntropy();
+                lowestEntropyCoords = [r-1, c] 
             }
 		}
-		if(j==0 || this.cells[i][j-1].isCollapsed()){
+		if(c==0 || this.cells[r][c-1].isCollapsed()){
 			availableCells[direction.WEST] = false;			
 		}else{
-			this.updateCell(j-1, i);
-			if(this.cells[i][j-1].getEntropy() <= lowestEntropy){
-			lowestEntropy = this.cells[i][j-1].getEntropy();
-			lowestEntropyCoords = [i, j-1]
+			this.updateCell(r, c-1);
+			if(this.cells[r][c-1].getEntropy() <= lowestEntropy){
+			lowestEntropy = this.cells[r][c-1].getEntropy();
+			lowestEntropyCoords = [r, c-1]
 			}
 		}
-		if(i==this.cells.length-1 || this.cells[i+1][j].isCollapsed()){
+		if(r==this.cells.length-1 || this.cells[r+1][c].isCollapsed()){
 			availableCells[direction.SOUTH] = false;	 
 		}else{
-			this.updateCell(j, i+1);
-			if(this.cells[i+1][j].getEntropy() <= lowestEntropy){
-			lowestEntropy = this.cells[i+1][j].getEntropy();
-			lowestEntropyCoords = [i+1, j] 
+			this.updateCell(r+1, c);
+			if(this.cells[r+1][c].getEntropy() <= lowestEntropy){
+			lowestEntropy = this.cells[r+1][c].getEntropy();
+			lowestEntropyCoords = [r+1, c] 
 			}
 		}
-		if(j==this.cells[i].length-1 || this.cells[i][j+1].isCollapsed()){
+		if(c==this.cells[r].length-1 || this.cells[r][c+1].isCollapsed()){
 			availableCells[direction.EAST] = false;
 		}else{
-			this.updateCell(j+1, i);
-			if(this.cells[i][j+1].getEntropy() <= lowestEntropy){
-			lowestEntropy = this.cells[i][j+1].getEntropy();
-			lowestEntropyCoords = [i, j+1] 
+			this.updateCell(r, c+1);
+			if(this.cells[r][c+1].getEntropy() <= lowestEntropy){
+			lowestEntropy = this.cells[r][c+1].getEntropy();
+			lowestEntropyCoords = [r, c+1] 
 			}
 		}
 		if(!(availableCells.includes(true))){
@@ -175,7 +175,7 @@ export class WaveFunctionOutputComponent implements OnInit {
 			for(var r = 0; r < this.cells.length; r++){
 				for(var c = 0; c< this.cells[r].length; c++){
 					if(!(this.cells[r][c].isCollapsed())){
-						this.updateCell(c,r);
+						this.updateCell(r,c);
 						if(this.cells[r][c].getEntropy()!=0){
 							this.generate(r,c);
 						}else{
@@ -191,8 +191,8 @@ export class WaveFunctionOutputComponent implements OnInit {
 		this.generate(lowestEntropyCoords[0], lowestEntropyCoords[1])
 	}
 
-	render(i:number, j:number, tile:string, rotation:number): void{
-		let imgId = "img"+i+" "+j;
+	render(r:number, c:number, tile:string, rotation:number): void{
+		let imgId = "img"+r+" "+c;
 		let img = document.getElementById(imgId) as HTMLImageElement;
 		img.src = tile;
 		img.style.transform = `rotate(${rotation}deg)`
