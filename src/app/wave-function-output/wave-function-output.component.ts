@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { timeInterval } from 'rxjs';
 import { CellObj } from '../cell';
 import { direction } from '../directions';
 import { TileObj } from '../tile';
@@ -177,7 +176,7 @@ export class WaveFunctionOutputComponent implements OnInit {
 	}
 
 	render(i:number, j:number, tile:string, rotation:number): void{
-		let imgId = "img"+i+j;
+		let imgId = "img"+i+" "+j;
 		let img = document.getElementById(imgId) as HTMLImageElement;
 		img.src = tile;
 		img.style.transform = `rotate(${rotation}deg)`
