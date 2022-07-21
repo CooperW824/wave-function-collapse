@@ -15,6 +15,7 @@ export class WaveFunctionOutputComponent implements OnInit {
 	dim = 15;
 	cells: Cell[][] = Array.from(Array(this.dim), () => new Array(this.dim))
 	tiles: Tile[] = [];
+	failed:boolean = false;
 
 	constructor() { }
 
@@ -106,7 +107,7 @@ export class WaveFunctionOutputComponent implements OnInit {
 		this.cells[y][x] = currentCell;
 	}
 
-	run():void{
+	reset():void{
 		for(var i= 0; i < this.cells.length; i++){
 			for(var j=0; j<this.cells[i].length; j++){
 				this.cells[i][j].setCollapsed(false);
@@ -114,22 +115,26 @@ export class WaveFunctionOutputComponent implements OnInit {
 				this.render(i,j,"../../assets/tiles/basicTee/blank.png",0);
 			}
 		}
+	}
+
+	run():void{
+		this.reset();
 		this.generate(0,0)
-		// var complete = false;
-		// while(!(complete)){
-		// 	complete = true;
-		// 	for(var r = 0; r < this.cells.length; r++){
-		// 		for(var c = 0; c < this.cells[r].length; c++){
-		// 			complete = false;
-		// 			this.generate(r,c)
-		// 		}
-		// 	}
-		// }
+		while(this.failed){
+			this.reset();
+			console.log("Retrying!")
+			this.generate(0,0)
+		}
 	}
 
 	generate(i:number, j:number): void{
 		var lowestEntropy = 5;
 		var lowestEntropyCoords = [0,0]
+		if(this.cells[i][j].getEntropy() == 0){
+			console.log("Invalid Tile");
+			this.failed = true;
+			return;
+		}
 		this.collapse(i,j);
 		var availableCells: boolean[] = [true, true, true, true]
 		if(i==0 || this.cells[i-1][j].isCollapsed()){
@@ -169,6 +174,7 @@ export class WaveFunctionOutputComponent implements OnInit {
 			}
 		}
 		if(!(availableCells.includes(true))){
+			this.failed = false;
 			return;
 		}	
 		
