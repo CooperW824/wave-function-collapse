@@ -12,7 +12,7 @@ type Tile = TileObj;
 })
 
 export class WaveFunctionOutputComponent implements OnInit {
-	dim = 15;
+	dim = 25;
 	cells: Cell[][] = Array.from(Array(this.dim), () => new Array(this.dim))
 	tiles: Tile[] = [];
 	failed:boolean = false;
@@ -68,7 +68,6 @@ export class WaveFunctionOutputComponent implements OnInit {
 		var tile = tiles[Math.floor(Math.random()*tiles.length)];
 		cell.setTile(tile);
 		this.cells[i][j] = cell;
-		console.log(cell)
 		this.render(i,j,tile.image,tile.getRotation());
 	}
 
@@ -173,6 +172,19 @@ export class WaveFunctionOutputComponent implements OnInit {
 		}
 		if(!(availableCells.includes(true))){
 			this.failed = false;
+			for(var r = 0; r < this.cells.length; r++){
+				for(var c = 0; c< this.cells[r].length; c++){
+					if(!(this.cells[r][c].isCollapsed())){
+						this.updateCell(c,r);
+						if(this.cells[r][c].getEntropy()!=0){
+							this.generate(r,c);
+						}else{
+							this.failed = true;
+							return;
+						}
+					}
+				}
+			}
 			return;
 		}	
 		
