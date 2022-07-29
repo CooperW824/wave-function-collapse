@@ -29,7 +29,7 @@ export class TileSets{
 		circuitTiles.push(new TileObj("/assets/tiles/Circuit/viad.png", ["AAA", "ABA","AAA","ABA"],0));
 		circuitTiles.push(new TileObj("/assets/tiles/Circuit/vias.png", ["ABA", "AAA","AAA","AAA"],0));
 		circuitTiles.push(new TileObj("/assets/tiles/Circuit/wire.png", ["AAA", "ACA","AAA","ACA"],0));
-		var circuitTilesToRotate = [1,2,3,4,6,7,8,9,10,11,12,13];
+		var circuitTilesToRotate = [0,2,3,4,5,7,8,9,10,11,12,13];
 		for(var index of circuitTilesToRotate){
 			for(var tile of this.rotateTile(circuitTiles[index])){
 				circuitTiles.push(tile);
@@ -48,11 +48,68 @@ export class TileSets{
 			for(var tile of this.rotateTile(knotsTiles[index])){
 				knotsTiles.push(tile);
 			}
-		}
-		
+		}		
 		this.tileSets.push(knotsTiles);
- 
-	}
+		
+		var roadsAndRiversTiles: Tile[] = [];
+		roadsAndRiversTiles.push(new TileObj("/assets/tiles/Castle/bridge.png", ["ABA", "ACA","ABA","ACA"],0));
+		roadsAndRiversTiles.push(new TileObj("/assets/tiles/Castle/ground.png", ["AAA", "AAA","AAA","AAA"],0));
+		roadsAndRiversTiles.push(new TileObj("/assets/tiles/Castle/river.png", ["ABA", "AAA","ABA","AAA"],0));
+		roadsAndRiversTiles.push(new TileObj("/assets/tiles/Castle/riverturn.png", ["ABA", "ABA","AAA","AAA"],0));
+		roadsAndRiversTiles.push(new TileObj("/assets/tiles/Castle/road.png", ["ACA", "AAA","ACA","AAA"],0));
+		roadsAndRiversTiles.push(new TileObj("/assets/tiles/Castle/roadturn.png", ["ACA", "ACA","AAA","AAA"],0));
+		roadsAndRiversTiles.push(new TileObj("/assets/tiles/Castle/t.png", ["AAA", "ACA","ACA","ACA"],0));
+		var CastleTilesToRotate =[0,2,3,4,5,6]
+		for(var index of CastleTilesToRotate){
+			for(var tile of this.rotateTile(roadsAndRiversTiles[index])){
+				roadsAndRiversTiles.push(tile);
+			}
+		}		
+		this.tileSets.push(roadsAndRiversTiles);
+
+		var circleTiles:Tile[] = []
+		circleTiles.push(new TileObj("/assets/tiles/Circles/b.png", ["BBB", "BBB","BBB","BBB"],0));
+		circleTiles.push(new TileObj("/assets/tiles/Circles/b_half.png", ["BBB", "WWW","WWW","WWW"],0));
+		circleTiles.push(new TileObj("/assets/tiles/Circles/b_i.png", ["BBB", "WWW","BBB","WWW"],0));
+		circleTiles.push(new TileObj("/assets/tiles/Circles/b_quarter.png", ["BBB", "BBB","WWW","WWW"],0));
+		circleTiles.push(new TileObj("/assets/tiles/Circles/w.png", ["WWW", "WWW","WWW","WWW"],0));
+		circleTiles.push(new TileObj("/assets/tiles/Circles/w_half.png", ["WWW", "BBB","BBB","BBB"],0));
+		circleTiles.push(new TileObj("/assets/tiles/Circles/w_i.png", ["WWW", "BBB","WWW","BBB"],0));
+		circleTiles.push(new TileObj("/assets/tiles/Circles/w_quarter.png", ["WWW", "WWWW","BBB","BBB"],0));
+		var circleTilesToRotate=[1,2,3,5,6,7];
+		for(var index of circleTilesToRotate){
+			for(var tile of this.rotateTile(circleTiles[index])){
+				circleTiles.push(tile);
+			}
+		}
+		this.tileSets.push(circleTiles);
+
+	// 	var floorPlanTiles: Tile[] = []
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/div.png", ["AAA", "ABA","AAA","ABA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/divt.png", ["AAA", "ABA","ABA","ABA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/divturn.png", ["ABA", "ABA","AAA","AAA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/door.png", ["AAA", "ABA","AAA","ABA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/empty.png", ["CCC", "CCC","CCC","CCC"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/floor.png", ["AAA", "AAA","AAA","AAA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/glass.png", ["AAA", "ADC","CCC","CDA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/halfglass.png", ["AAA", "ADC","CCC","CEA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/in.png", ["AAA", "AAA","AEC","CEA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/out.png", ["CEA", "AEC","CCC","CCC"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/stairs.png", ["AAA", "AAA","FFF","AAA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/table.png", ["AAA", "AAA","AAA","AAA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/vent.png", ["AAA", "AAA","AAA","AAA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/w.png.png", ["AAA", "AEC","CCC","CEA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/wall.png", ["AAA", "AEC","CCC","CEA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/walldiv.png", ["ABA", "AEC","CCC","CEA"],0));
+	// 	floorPlanTiles.push(new TileObj("/assets/tiles/FloorPlan/window.png", ["AAA", "AEC","CCC","CEA"],0));
+	// 	// var FloorPlanTilesToRotate =[0,1,2,3,6,7,8,9,10,13,14,15,16]
+	// 	for(var index= 0; index < floorPlanTiles.length; index++){
+	// 		for(var tile of this.rotateTile(floorPlanTiles[index])){
+	// 			floorPlanTiles.push(tile);
+	// 		}
+	// 	}		
+	// 	this.tileSets.push(floorPlanTiles);
+ }
 
 
     /**

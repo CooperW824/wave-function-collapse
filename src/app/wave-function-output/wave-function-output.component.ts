@@ -131,7 +131,6 @@ export class WaveFunctionOutputComponent implements OnInit {
 			for(var c=0; c<this.cells[r].length; c++){
 				this.cells[r][c].setCollapsed(false);
 				this.cells[r][c].setValidTiles(this.tiles);
-				this.render(r,c,"../../assets/tiles/basicTee/blank.png",0); //This is obsolete at this point, remove at the optimization pass
 			}
 		}
 	}
