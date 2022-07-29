@@ -1,13 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap');
+
 img{
     margin: 0;
     padding: 0%;
     height: 40px;
     width: 40px;
-}
-
-#output{
-    border: 5px;
-    border-color: aqua;
 }
 
 .cellRow{
@@ -19,6 +16,58 @@ img{
     padding: 0%;
 }
 
+#content{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
 
+#selector{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 400px;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+    color: white;
+}
 
+#selector label{
+    font-size: 16pt;
+}
 
+#selector select{
+    margin: 10px;
+    font-size: 16pt;
+    background-color: #575757;
+    border-radius: 5px;
+    color: white;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+}
+
+button{
+    background-color: rgb(38, 38, 207);
+    border-radius: 5px;
+    color: white;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+    margin: 10px;
+    font-size: 16pt;
+    padding: 10px;
+    border-color: white;
+    box-shadow: 2px 2px;
+}
+
+button:active{
+    background-color: rgb(38, 154, 207);
+    border-radius: 5px;
+    color: white;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+    margin: 10px;
+    font-size: 16pt;
+    padding: 10px;
+    border-color: white;
+    box-shadow: none;
+}
