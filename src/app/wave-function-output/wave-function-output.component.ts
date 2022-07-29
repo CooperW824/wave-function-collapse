@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CellObj } from '../cell';
 import { direction } from '../directions';
 import { TileObj } from '../tile';
+import { TileSets } from '../tilesets'; 
 type Cell = CellObj;
 type Tile = TileObj;
 
@@ -14,54 +15,29 @@ type Tile = TileObj;
 export class WaveFunctionOutputComponent implements OnInit {
 	dim = 20;
 	cells: Cell[][] = Array.from(Array(this.dim), () => new Array(this.dim))
-	tiles: Tile[] = [];
+	tiles: Tile[] = [new TileObj("/assets/tiles/basicTee/blank.png", ["BBB","BBB","BBB","BBB"], 0)];
 	failed:boolean = false;
 
-	constructor() { }
+	constructor() { 
+	}
 
+
+	getTileSet(){
+		var availableTileSets = new TileSets();
+		var tileSelector = document.getElementById("tileSetSelction") as HTMLSelectElement;
+		var tilesIndex = Number(tileSelector.value);
+		this.tiles = availableTileSets.getTileSet(tilesIndex);
+	}
 
 	/**
 	 * Ran by angular on page load, generates the list of tiles and initializes the cells array with CellObj objects
 	 */
 
 	ngOnInit(): void {
-		this.tiles.push(new TileObj("/assets/tiles/basicTee/tile1.png", ["ABA", "ABA",'AAA','ABA'], 0));
-		this.tiles.push(new TileObj("/assets/tiles/basicTee/tile0.png", ["AAA", "AAA",'AAA','AAA'], 0));
-		this.rotateTile(this.tiles[0]);
 		for(var r= 0; r < this.cells.length; r++){
 			for(var c=0; c<this.cells[r].length; c++){
 				this.cells[r][c]=new CellObj(this.tiles.length,this.tiles);
 			}
-		}
-	}
-
-	/**
-	 * Shifts every element of the array arr 1 position to the left without
-	 * modifying the original array.
-	 * @param arr the array to rotate
-	 * @returns arr with each element shifted 1 position to the left
-	 */
-	// TODO: needs refactoring to fit with clean code standards
-	shiftArrayLeft(arr:string[]):string[]{
-		var outputArr = []
-		outputArr.push(arr[3])
-		outputArr.push(arr[0])
-		outputArr.push(arr[1])
-		outputArr.push(arr[2])
-		return outputArr;
-	}
-
-	/**
-	 * Appends the tile array with each rotation of the tile passed as a parameter.
-	 * @param tile the Tile object to be rotated in all other orientations.
-	 */
-
-	rotateTile(tile: Tile): void{
-		var sides:string[] = tile.getSideKeys();
-		var img = tile.image;
-		for(var r = 1; r < 4; r++){
-			sides = this.shiftArrayLeft(sides);
-			this.tiles.push(new TileObj(img,sides, r*90));
 		}
 	}
 
@@ -155,7 +131,6 @@ export class WaveFunctionOutputComponent implements OnInit {
 			for(var c=0; c<this.cells[r].length; c++){
 				this.cells[r][c].setCollapsed(false);
 				this.cells[r][c].setValidTiles(this.tiles);
-				this.render(r,c,"../../assets/tiles/basicTee/blank.png",0); //This is obsolete at this point, remove at the optimization pass
 			}
 		}
 	}
@@ -165,6 +140,7 @@ export class WaveFunctionOutputComponent implements OnInit {
 	 */
 
 	run():void{
+		this.getTileSet()
 		this.reset();
 		this.generate(0,0)
 		while(this.failed){
@@ -180,7 +156,7 @@ export class WaveFunctionOutputComponent implements OnInit {
 	 */
 
 	generate(r:number, c:number): void{
-		var lowestEntropy = 5;
+		var lowestEntropy = 9999;
 		var lowestEntropyCoords = [0,0]
 		if(this.cells[r][c].getEntropy() == 0){
 			this.failed = true;
