@@ -1,12 +1,20 @@
+<div id="content">
+    <div id="selector">
+        <label for="tileSetSelection"> Tile Set:</label>
+        <select id="tileSetSelction">
+            <option value="0">Select a Tile Type:</option>
+            <option value="1">Basic Tee</option>
+            <option value="2">Circuit</option>
+            <option value="3">Knots</option>
+            <option value="4">Roads and Rivers</option>
+            <option value="5">Circles</option>
+        </select>
 
-<label for="tileSetSelection"> Tile Set:</label>
-<select #tileOption id="tileSetSelction">
-    <option></option>
-    <option>Basic Tee</option>
-    <option>Circuit</option>
-</select>
+        <button type="button" (click)="run()">Generate!</button>
+    </div>
+</div>
 
-<button type="button" (click)="run()">Generate!</button>
+
 <div id="output" *ngIf="cells">
     <div class="cellRow" *ngFor="let cellRow of cells; let i = index">
         <img *ngFor="let cell of cellRow; let j = index" id="img{{i}} {{j}}" src="../../assets/tiles/basicTee/blank.png">   
