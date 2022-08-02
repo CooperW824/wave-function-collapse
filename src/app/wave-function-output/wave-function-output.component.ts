@@ -76,7 +76,7 @@ export class WaveFunctionOutputComponent implements OnInit {
 		var tile = tiles[Math.floor(Math.random()*tiles.length)];
 		cell.setTile(tile);
 		this.cells[r][c] = cell;
-		this.render(r,c,tile.image,tile.getRotation());
+		//this.render(r,c,tile.image,tile.getRotation());
 	}
 
 	/**
@@ -147,6 +147,7 @@ export class WaveFunctionOutputComponent implements OnInit {
 			this.reset();
 			this.generate(0,0)
 		}
+		this.render()
 	}
 
 	/**
@@ -221,6 +222,15 @@ export class WaveFunctionOutputComponent implements OnInit {
 		this.generate(lowestEntropyCoords[0], lowestEntropyCoords[1])
 	}
 
+	render(): void{
+		for(var r = 0; r < this.cells.length; r++){
+			for(var c = 0; c < this.cells[r].length; c++){
+				var tile = this.cells[r][c].getTile()
+				this.renderCell(r, c, tile.image, tile.getRotation())
+			}
+		}
+	}
+
 	/**
 	 * Renders the desired tile img to the screen and rotates it to the desired angle.
 	 * @param r the row of the img element to render to
@@ -229,7 +239,7 @@ export class WaveFunctionOutputComponent implements OnInit {
 	 * @param rotation the desired rotation of the img element (degrees)
 	 */
 
-	render(r:number, c:number, tile:string, rotation:number): void{
+	renderCell(r:number, c:number, tile:string, rotation:number): void{
 		let imgId = "img"+r+" "+c;
 		let img = document.getElementById(imgId) as HTMLImageElement;
 		img.src = tile;
