@@ -76,7 +76,6 @@ export class WaveFunctionOutputComponent implements OnInit {
 		var tile = tiles[Math.floor(Math.random()*tiles.length)];
 		cell.setTile(tile);
 		this.cells[r][c] = cell;
-		//this.render(r,c,tile.image,tile.getRotation());
 	}
 
 	/**
@@ -221,6 +220,10 @@ export class WaveFunctionOutputComponent implements OnInit {
 		
 		this.generate(lowestEntropyCoords[0], lowestEntropyCoords[1])
 	}
+
+	/**
+	 * Renders the image and rotations for all cells after WFC finishes.
+	 */
 
 	render(): void{
 		for(var r = 0; r < this.cells.length; r++){
